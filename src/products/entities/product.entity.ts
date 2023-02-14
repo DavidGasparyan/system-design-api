@@ -10,11 +10,12 @@ import {
 export class Product {
   @PrimaryGeneratedColumn({ name: 'id' }) id: number;
 
-  @Column({ type: 'varchar', length: 255, name: 'name' }) name: string;
+  @Column({ type: 'varchar', length: 32, name: 'name' }) name: string;
 
   @Column({ type: 'int', name: 'quantity' }) quantity: number;
 
-  @Column({ type: 'float4', name: 'price' }) price: number;
+  @Column({ type: 'numeric', name: 'price', precision: 7, scale: 2 })
+  price: number;
 
   @CreateDateColumn({
     type: 'timestamptz',
@@ -22,6 +23,7 @@ export class Product {
     name: 'create_time',
   })
   createTime: Date;
+
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
