@@ -1,21 +1,20 @@
 import {
-  Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Product } from '../../products/entities/product.entity';
 
 @Entity()
-export class Product {
+export class Order {
   @PrimaryGeneratedColumn({ name: 'uuid' }) id: number;
 
-  @Column({ type: 'varchar', length: 32, name: 'name' }) name: string;
-
-  @Column({ type: 'int', name: 'quantity' }) quantity: number;
-
-  @Column({ type: 'numeric', name: 'price', precision: 7, scale: 2 })
-  price: number;
+  @OneToOne(() => Product)
+  @JoinColumn({ name: 'product_id' })
+  product: Product;
 
   @CreateDateColumn({
     type: 'timestamptz',

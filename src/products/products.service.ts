@@ -22,6 +22,9 @@ export class ProductsService {
     return this.productRepository.save(product);
   }
 
+  /*
+    Maybe a pagination for this collection?
+   */
   findAll(): Promise<Product[]> {
     return this.productRepository.find();
   }
