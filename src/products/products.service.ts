@@ -9,35 +9,30 @@ import { Repository } from 'typeorm';
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    private readonly productsRepository: Repository<Product>,
   ) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
-    const product = this.productRepository.create(createProductDto);
-
-    product.name = createProductDto.name;
-    product.quantity = createProductDto.quantity;
-    product.price = createProductDto.price;
-
-    return this.productRepository.save(product);
+  async create(createProductDto: CreateProductDto) {
+    // return new Product(this.productsRepository.save(createProductDto));
+    // return new Promise<Product>();
   }
 
   /*
     Maybe a pagination for this collection?
    */
   findAll(): Promise<Product[]> {
-    return this.productRepository.find();
+    return this.productsRepository.find();
   }
 
-  findOne(id: number): Promise<Product> {
-    return this.productRepository.findOneBy({ id });
+  findOne(id: string): Promise<Product> {
+    return this.productsRepository.findOneBy({ id });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return this.productRepository.update({ id }, updateProductDto);
+  update(id: string, updateProductDto: UpdateProductDto) {
+    return this.productsRepository.update({ id }, updateProductDto);
   }
 
   async remove(id: number): Promise<void> {
-    await this.productRepository.delete(id);
+    await this.productsRepository.delete(id);
   }
 }

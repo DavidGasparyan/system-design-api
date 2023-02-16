@@ -10,6 +10,7 @@ export default registerAs('database', () => {
     password: process.env.DB_MAIN_PASSWORD,
     database: process.env.DB_MAIN_DATABASE,
     autoLoadEntities: true,
+    synchronize: true,
     entities: [
       baseFolder() + 'modules/**/*.entity{.ts,.js}',
       baseFolder() + 'modules/**/*.view{.ts,.js}',

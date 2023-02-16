@@ -37,6 +37,7 @@ export class Order {
     readonly: true,
   })
   createdAt: string;
+
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamptz',
