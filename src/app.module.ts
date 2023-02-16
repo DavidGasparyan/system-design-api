@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrdersModule } from './orders/orders.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { validate } from './common/config/env.validation';
+import { CustomersModule } from './customers/customers.module';
+import { OrderDetailsModule } from './order-details/order-details.module';
 import dbConfig from './common/config/db.config';
 
 @Module({
@@ -26,6 +28,8 @@ import dbConfig from './common/config/db.config';
       }),
       inject: [ConfigService],
     }),
+    CustomersModule,
+    OrderDetailsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

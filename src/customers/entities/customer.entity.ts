@@ -1,31 +1,34 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { Order } from '../../orders/entities/order.entity';
-import { OrderDetail } from '../../order-details/entities/order-detail.entity';
 
-@Entity()
-export class Product {
+@Entity('customers')
+export class Customer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar' })
   name: string;
 
-  @Column({ name: 'unit_price', type: 'numeric' })
-  unitPrice: number;
+  @Column({ type: 'varchar', unique: true })
+  email: string;
 
-  @Column({ type: 'text' })
-  description: string;
+  @Column({ name: 'phone_number', type: 'varchar' })
+  phoneNumber: string;
 
-  @Column({ type: 'varchar' })
-  image: string;
+  @Exclude()
+  @Column({ name: 'password_digest', type: 'varchar' })
+  password: string;
+
+  @Exclude()
+  confirmPassword: string;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -42,16 +45,10 @@ export class Product {
   })
   updatedAt: string;
 
-  @DeleteDateColumn({
-    name: 'deleted_at',
-    type: 'timestamptz',
-  })
-  deletedAt: string;
+  @OneToMany(() => Order, (order) => order.customer)
+  orders: Order[];
 
-  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.product)
-  orderDetails: OrderDetail[];
-
-  constructor(data: Partial<Product> = null) {
+  constructor(data: Partial<Customer> = null) {
     if (data !== null) {
       Object.assign(this, data);
     }
