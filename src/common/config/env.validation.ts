@@ -15,6 +15,45 @@ enum Environment {
 }
 
 class EnvironmentVariables {
+  @IsString()
+  JWT_ACCESS_TOKEN_EXPIRATION_TIME: string;
+
+  @IsString()
+  COOKIE_SECRET: string;
+
+  @IsString()
+  REDIS_HOST: string;
+
+  @IsNumber()
+  REDIS_PORT: number;
+
+  @IsNumber()
+  REDIS_DB: number;
+
+  @IsString()
+  REDIS_USERNAME: string;
+
+  @IsString()
+  REDIS_PASSWORD: string;
+
+  @IsString()
+  REDIS_PREFIX: string;
+
+  @IsString()
+  JWT_REFRESH_TOKEN_EXPIRATION_TIME: string;
+
+  @IsString()
+  JWT_ACCESS_TOKEN_PUBLIC_KEY: string;
+
+  @IsString()
+  JWT_ACCESS_TOKEN_PRIVATE_KEY: string;
+
+  @IsString()
+  JWT_REFRESH_TOKEN_PUBLIC_KEY: string;
+
+  @IsString()
+  JWT_REFRESH_TOKEN_PRIVATE_KEY: string;
+
   @IsEnum(Environment)
   NODE_ENV: Environment;
 
