@@ -1,22 +1,17 @@
-import { IsNotEmpty, IsPositive, Length, Max, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import { PartialType } from '@nestjs/mapped-types';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Product } from '../entities/product.entity';
 
-export class CreateProductDto {
+export class CreateProductDto extends PartialType(Product) {
+  @IsString()
   @IsNotEmpty()
-  @Length(3, 32)
-  name: string;
+  name?: string;
 
-  @Type(() => Number)
+  @IsNumber()
   @IsNotEmpty()
-  @IsPositive()
-  @Min(0)
-  @Max(100)
-  quantity: number;
+  unitPrice?: number;
 
-  @Type(() => Number)
+  @IsString()
   @IsNotEmpty()
-  @IsPositive()
-  @Min(0)
-  @Max(10000)
-  price: number;
+  description?: string;
 }

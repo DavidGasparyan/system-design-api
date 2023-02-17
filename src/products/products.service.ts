@@ -3,7 +3,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
@@ -12,27 +12,30 @@ export class ProductsService {
     private readonly productsRepository: Repository<Product>,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
-    // return new Product(this.productsRepository.save(createProductDto));
-    // return new Promise<Product>();
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    return await this.productsRepository.save(createProductDto);
   }
 
-  /*
-    Maybe a pagination for this collection?
-   */
-  findAll(): Promise<Product[]> {
-    return this.productsRepository.find();
+  async findAll(): Promise<Product[]> {
+    return await this.productsRepository.find();
   }
 
-  findOne(id: string): Promise<Product> {
-    return this.productsRepository.findOneBy({ id });
+  async findOne(id: string): Promise<Product> {
+    return await this.productsRepository.findOneBy({ id });
   }
 
-  update(id: string, updateProductDto: UpdateProductDto) {
-    return this.productsRepository.update({ id }, updateProductDto);
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<UpdateResult> {
+    return await this.productsRepository.update(id, updateProductDto);
   }
 
-  async remove(id: number): Promise<void> {
-    await this.productsRepository.delete(id);
+  async remove(id: string): Promise<DeleteResult> {
+    return await this.productsRepository.softDelete(id);
+  }
+
+  async checkIfProductsExist(productIds: string[]): Promise<Product[]> {
+    return await this.productsRepository.findByIds(productIds);
   }
 }
