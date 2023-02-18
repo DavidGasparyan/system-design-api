@@ -1,31 +1,58 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { OrderDetail } from '../../order-details/entities/order-detail.entity';
 
-@Entity()
+@Entity('products')
 export class Product {
-  @PrimaryGeneratedColumn({ name: 'id' }) id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ type: 'varchar', length: 255, name: 'name' }) name: string;
+  @Column({ type: 'varchar' })
+  name: string;
 
-  @Column({ type: 'int', name: 'quantity' }) quantity: number;
+  @Column({ name: 'unit_price', type: 'numeric' })
+  unitPrice: number;
 
-  @Column({ type: 'float4', name: 'price' }) price: number;
+  @Column({ type: 'text' })
+  description: string;
+
+  @Column({ type: 'varchar' })
+  image: string;
 
   @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-    name: 'create_time',
+    default: 'now()',
+    readonly: true,
   })
-  createTime: Date;
+  createdAt: string;
+
   @UpdateDateColumn({
+    name: 'updated_at',
     type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-    name: 'update_time',
+    default: 'now()',
   })
-  updateTime: Date;
+  updatedAt: string;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    type: 'timestamptz',
+  })
+  deletedAt: string;
+
+  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.product)
+  orderDetails: OrderDetail[];
+
+  constructor(data: Partial<Product> = null) {
+    if (data !== null) {
+      Object.assign(this, data);
+    }
+  }
 }
