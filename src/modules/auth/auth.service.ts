@@ -8,17 +8,17 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { CustomersService } from '../customers/customers.service';
-import { CreateCustomerDto } from '../customers/dto/create-customer.dto';
+import { CustomersService } from '../../customers/customers.service';
+import { CreateCustomerDto } from '../../customers/dto/create-customer.dto';
 import * as bcrypt from 'bcrypt';
-import { PostgresErrorCode } from '../common/enums/postgres-error-codes.enum';
-import { Customer } from '../customers/entities/customer.entity';
+import { PostgresErrorCode } from '../../common/enums/postgres-error-codes.enum';
+import { Customer } from '../../customers/entities/customer.entity';
 import { JwtTokenPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import * as util from 'util';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
-import { RedisKeys } from '../common/enums/redis-keys.enum';
+import { RedisKeys } from '../../common/enums/redis-keys.enum';
 import { Cache } from 'cache-manager';
 
 @Injectable()

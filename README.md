@@ -43,6 +43,12 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+#stripe login
+$ stripe login --interactive
+
+# stripe run backend
+$ stripe listen --forward-to localhost:3000/orders/stripe_webhook
 ```
 
 ## Test

@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { RefreshStrategy } from './strategies/refresh.strategy';
-import { CustomersModule } from '../customers/customers.module';
+import { CustomersModule } from '../../customers/customers.module';
 
 @Module({
   imports: [
