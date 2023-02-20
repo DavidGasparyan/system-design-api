@@ -1,3 +1,11 @@
+import { IsNotEmpty, IsNumber } from 'class-validator';
+import { OrderDetail } from '../../order-details/entities/order-detail.entity';
+
 export class CreateOrderDto {
-  productId: number;
+  @IsNumber()
+  @IsNotEmpty()
+  totalAmount: number;
+
+  @IsNotEmpty()
+  orderDetails: OrderDetail[];
 }

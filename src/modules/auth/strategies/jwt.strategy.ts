@@ -1,11 +1,11 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { CustomersService } from '../../customers/customers.service';
+import { CustomersService } from '../../../customers/customers.service';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import * as fs from 'fs';
 import { Request } from 'express';
-import { Customer } from '../../customers/entities/customer.entity';
+import { Customer } from '../../../customers/entities/customer.entity';
 import { SecretData } from '../interfaces/secret-data.interface';
 import { JwtTokenPayload } from '../interfaces/jwt-payload.interface';
 

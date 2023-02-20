@@ -10,14 +10,14 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
-import { CreateCustomerDto } from '../customers/dto/create-customer.dto';
-import { Customer } from '../customers/entities/customer.entity';
+import { CreateCustomerDto } from '../../customers/dto/create-customer.dto';
+import { Customer } from '../../customers/entities/customer.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { SecretData } from './interfaces/secret-data.interface';
 import { RefreshGuard } from './guards/refresh-auth.guard';
 import * as uuid from 'uuid';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { CookieNames } from '../common/enums/cookie-names.enum';
+import { CookieNames } from '../../common/enums/cookie-names.enum';
 
 @Controller('auth')
 export class AuthController {
