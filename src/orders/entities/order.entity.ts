@@ -12,7 +12,7 @@ import { Customer } from '../../customers/entities/customer.entity';
 import { OrderDetail } from '../../order-details/entities/order-detail.entity';
 import { PaymentStatus } from '../../common/enums/payment-status.enum';
 
-@Entity()
+@Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
