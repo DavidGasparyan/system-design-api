@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 script{
-                    app = docker.build("underwater")
+                    app = docker.build("sytem-design-api")
                 }
             }
         }
