@@ -1,9 +1,6 @@
 Dockerfile
 .dockerignore
 node_modules
-npm-debug.log
 dist
-lib
 .idea
 *.env
-rsa-keys

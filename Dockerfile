@@ -8,5 +8,9 @@ RUN npm install
 
 COPY . .
 
+RUN npm i @nestjs/cli
+RUN npm install pm2 -g
+RUN npm run build
+
 EXPOSE 3000
-CMD [ "npm", "run", "start:prod" ]
+CMD ["pm2-runtime", "./dist/src/main.js"]

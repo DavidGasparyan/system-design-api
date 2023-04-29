@@ -95,11 +95,9 @@ export class AuthService {
       expiresIn: this.configService.get('JWT_REFRESH_TOKEN_EXPIRATION_TIME'),
     });
 
-    // Encrypt the refresh token before storing it in redis
     const salt = await bcrypt.genSalt();
     const hashedRefreshToken = await bcrypt.hash(refreshToken, salt);
 
-    // Save the hashed access token in redis and set it to expire after a day
     const redisResponse = await this.redisService.set(
       `${RedisKeys.RefreshToken}:${customerId}:${refreshTokenId}`,
       hashedRefreshToken,
@@ -107,11 +105,6 @@ export class AuthService {
     );
 
     return refreshToken;
-
-    // Return the unencrypted refresh token back to the customer
-    // if (redisResponse === 'OK') {
-    //   return refreshToken;
-    // }
   }
 
   async validateJwtRefreshToken(
@@ -121,12 +114,10 @@ export class AuthService {
   ): Promise<Customer> {
     const customer = await this.customersService.getById(customerId);
 
-    // Fetch the encrypted refresh token from redis
     const savedRefreshToken: string = await this.redisService.get(
       `${RedisKeys.RefreshToken}:${customer.id}:${refreshTokenId}`,
     );
 
-    // Compare the received refresh token and  what is stored in redis
     const isRefreshTokenMatching = await bcrypt.compare(
       refreshToken,
       savedRefreshToken,
@@ -149,18 +140,11 @@ export class AuthService {
   ): Promise<Customer> {
     const customer = await this.customersService.getById(customerId);
 
-    // Delete the encrypted refresh token from redis
     const deletedResult = await this.redisService.del(
       `${RedisKeys.RefreshToken}:${customer.id}:${refreshTokenId}`,
     );
 
     return customer;
-
-    // if (deletedResult === 1) {
-    //   return customer;
-    // } else {
-    //   throw new NotFoundException('The refresh token was not found');
-    // }
   }
 
   private async verifyPassword(
