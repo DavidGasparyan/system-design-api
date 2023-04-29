@@ -23,16 +23,14 @@ export class OrdersService {
     createOrderDto: CreateOrderDto,
     customer: Customer,
   ): Promise<Order> {
-    // Check if the products in the order exist
     const productIds = createOrderDto.orderDetails.map(
       (item) => item.productId,
     );
+
     const products = await this.productsService.checkIfProductsExist(
       productIds,
     );
 
-    // If none of the products in the order exist, or only some exist, while others
-    // do not, throw an exception
     if (!products || products.length != productIds.length) {
       throw new UnprocessableEntityException(
         'The order could not be processed',
@@ -46,17 +44,12 @@ export class OrdersService {
 
     order.orderDetails = createOrderDto.orderDetails;
 
-    // Save the order including its order items as a transaction
     const savedOrder = await this.ordersRepository.save(order);
-
-    // Create a payment intent on Stripe
     const paymentIntent = await this.stripeService.createPaymentIntent(
       savedOrder.id,
       savedOrder.totalAmount,
     );
     const clientSecret = paymentIntent.client_secret;
-
-    // Return the client secret to the client as well as the saved order info
     const updatedOrder = { ...savedOrder, clientSecret: clientSecret };
     return updatedOrder;
   }
@@ -71,31 +64,23 @@ export class OrdersService {
   }
 
   async updatePaymentStatus(event: Stripe.Event): Promise<string> {
-    // Fetch the orderId from the webhook metadata
     const orderId = event.data.object['metadata'].orderId;
-
-    // Lookup the order
     const order = await this.findOrder(orderId);
 
-    // Check the event type
     switch (event.type) {
-      // If the event type is a succeeded, update the payment status to succeeded
       case PaymentIntentEvent.Succeeded:
         order.paymentStatus = PaymentStatus.Succeeded;
         break;
 
       case PaymentIntentEvent.Processing:
-        // If the event type is processing, update the payment status to processing
         order.paymentStatus = PaymentStatus.Processing;
         break;
 
       case PaymentIntentEvent.Failed:
-        // If the event type is payment_failed, update the payment status to payment_failed
         order.paymentStatus = PaymentStatus.Failed;
         break;
 
       default:
-        // else, by default the payment status should remain as created
         order.paymentStatus = PaymentStatus.Created;
         break;
     }
